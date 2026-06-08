@@ -155,8 +155,7 @@
           <div class="evidencias-grid">
             <div class="evidencia-item" *ngFor="let ev of solicitudDetalle.evidencias">
               <img *ngIf="ev.tipo === 'imagen'" [src]="ev.url" alt="Evidencia">
-              <audio *ngIf="ev.tipo === 'audio'" controls class="audio-player">
-                <source [src]="ev.url">
+              <audio *ngIf="ev.tipo === 'audio'" controls class="audio-player" [src]="ev.url">
                 Tu navegador no soporta reproducción de audio.
               </audio>
             </div>

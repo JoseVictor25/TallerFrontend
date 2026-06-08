@@ -116,11 +116,11 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
       const mapElement = document.getElementById('incidents-map');
       if (mapElement) {
         this.initMap();
-      } else {
-        return;
       }
     }
-    
+
+    if (!this.map) return;
+
     // Clear previous markers
     this.map.eachLayer((layer) => {
       if (layer instanceof L.Marker) {
@@ -134,7 +134,7 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
     this.kpis.zonas_incidentes.forEach(z => {
       if(z.lat && z.lng) {
         const latlng = L.latLng(z.lat, z.lng);
-        L.marker(latlng).addTo(this.map!);
+        L.marker(latlng).addTo(this.map as L.Map);
         bounds.extend(latlng);
         hasMarkers = true;
       }

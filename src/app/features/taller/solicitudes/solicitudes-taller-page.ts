@@ -217,7 +217,7 @@ export class SolicitudesTallerPage implements OnChanges, OnInit, OnDestroy {
 
   confirmarCotizar() {
     if (!this.selectedSolicitudId || !this.cotizacionMonto || this.cotizacionMonto <= 0) {
-      alert('Por favor ingresa un monto válido.');
+      this.mostrarNotificacion('⚠️ Por favor ingresa un monto válido.');
       return;
     }
 
@@ -226,14 +226,14 @@ export class SolicitudesTallerPage implements OnChanges, OnInit, OnDestroy {
 
     this.tallerServiciosService.cotizarSolicitud(this.selectedSolicitudId, this.tallerId, data).subscribe({
       next: () => {
-        alert('Cotización enviada al cliente.');
+        this.mostrarNotificacion('✅ Cotización enviada al cliente.');
         this.isSubmitting = false;
         this.cerrarModal();
         this.cargarSolicitudes();
       },
       error: (err: any) => {
         console.error(err);
-        alert('Error al enviar la cotización.');
+        this.mostrarNotificacion('❌ Error al enviar la cotización.');
         this.isSubmitting = false;
       }
     });
@@ -242,7 +242,7 @@ export class SolicitudesTallerPage implements OnChanges, OnInit, OnDestroy {
   confirmarAceptar() {
     if (!this.selectedSolicitudId) return;
     if (!this.selectedTecnicoId) {
-      alert('Debes seleccionar al menos un técnico.');
+      this.mostrarNotificacion('⚠️ Debes seleccionar al menos un técnico.');
       return;
     }
 
@@ -259,14 +259,14 @@ export class SolicitudesTallerPage implements OnChanges, OnInit, OnDestroy {
 
     this.tallerServiciosService.iniciarServicio(this.selectedSolicitudId, this.tallerId, data).subscribe({
       next: () => {
-        alert('Solicitud aceptada exitosamente. El servicio está en curso.');
+        this.mostrarNotificacion('✅ Solicitud aceptada exitosamente. El servicio está en curso.');
         this.isSubmitting = false;
         this.cerrarModal();
         this.cargarSolicitudes();
       },
       error: (err: any) => {
         console.error(err);
-        alert('Error al aceptar la solicitud. Revisa si hay técnicos o vehículos disponibles.');
+        this.mostrarNotificacion('❌ Error al aceptar la solicitud. Revisa técnicos o vehículos.');
         this.isSubmitting = false;
       }
     });
@@ -276,12 +276,12 @@ export class SolicitudesTallerPage implements OnChanges, OnInit, OnDestroy {
     if (confirm('¿Estás seguro de rechazar esta solicitud?')) {
       this.tallerServiciosService.rechazarSolicitud(solicitudId, this.tallerId).subscribe({
         next: () => {
-          alert('Solicitud rechazada');
+          this.mostrarNotificacion('✅ Solicitud rechazada');
           this.cargarSolicitudes(); // Recargar la lista
         },
         error: (err: any) => {
           console.error(err);
-          alert('Error al rechazar la solicitud');
+          this.mostrarNotificacion('❌ Error al rechazar la solicitud');
         }
       });
     }

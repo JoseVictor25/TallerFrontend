@@ -109,18 +109,18 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
   }
   
   updateMap() {
-    if (!this.map || !this.kpis) {
+    if (!this.kpis) return;
+
+    if (!this.map) {
       // Intentar inicializar mapa si se renderizó tarde
       const mapElement = document.getElementById('incidents-map');
-      if (mapElement && !this.map) {
+      if (mapElement) {
         this.initMap();
       } else {
         return;
       }
     }
     
-    if (!this.map) return;
-
     // Clear previous markers
     this.map.eachLayer((layer) => {
       if (layer instanceof L.Marker) {

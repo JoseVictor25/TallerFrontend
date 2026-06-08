@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit, OnDestroy, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TallerServiciosService, SolicitudServicioList, TecnicoDisponible, VehiculoDisponible, SolicitudServicioDetalle } from '../../../core/services/taller-servicios.service';
@@ -47,8 +48,13 @@ export class SolicitudesTallerPage implements OnChanges, OnInit, OnDestroy {
   constructor(
     private tallerServiciosService: TallerServiciosService,
     private wsService: WebSocketService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {}
+
+  getSafeUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   ngOnInit(): void {
     if (this.tallerId) {

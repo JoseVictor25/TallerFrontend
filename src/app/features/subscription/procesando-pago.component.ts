@@ -66,39 +66,25 @@ export class ProcesandoPagoComponent implements OnInit {
 
   iniciarPago() {
     const tallerName = localStorage.getItem('taller_name') || '';
+    
+    // Obtener la URL actual para que Stripe sepa adónde regresar
+    const successUrl = `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${window.location.origin}/suscripcion?plan=${this.planId}`;
 
-    if (!environment.production) {
-      // Simular Webhook en local
-      this.http.get<any>(`${this.apiUrl}/perfil/me`).subscribe({
-        next: (profile) => {
-          this.http.post(`${this.apiUrl}/tenants/simulate-webhook?id_usuario=${profile.id_usuario}&taller_name=${tallerName}`, {}).subscribe({
-            next: () => {
-              window.location.href = '/payment-success';
-            },
-            error: (err) => {
-              this.error = 'Error simulando webhook local.';
-              console.error(err);
-            }
-          });
-        },
-        error: (err) => {
-          this.error = 'Error obteniendo perfil.';
-        }
-      });
-      return;
-    }
-
-    // Producción: Redirigir a Stripe
-    this.http.post<{ url: string }>(`${this.apiUrl}/tenants/subscribe?plan=${this.planId}&taller_name=${tallerName}`, {}).subscribe({
+    // Siempre redirigir a Stripe, independientemente de si es local o producción
+    this.http.post<{ url: string }>(
+      `${this.apiUrl}/tenants/subscribe?plan=${this.planId}&taller_name=${encodeURIComponent(tallerName)}&success_url=${encodeURIComponent(successUrl)}&cancel_url=${encodeURIComponent(cancelUrl)}`, 
+      {}
+    ).subscribe({
       next: (response) => {
-        window.location.href = response.url;
+        window.location.href = response.url; // Redirigir al Checkout de Stripe
       },
       error: (err) => {
         if (err.status === 401 || err.status === 403) {
           alert("La sesión expiró. Inicia sesión de nuevo.");
           window.location.href = '/login';
         } else {
-          this.error = 'Ocurrió un error al intentar generar el link de pago.';
+          this.error = 'Ocurrió un error al intentar generar el link de pago seguro de Stripe.';
           console.error(err);
         }
       }

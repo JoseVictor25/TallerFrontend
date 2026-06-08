@@ -31,11 +31,12 @@ import { BitacoraPage } from '../sistema/bitacora/bitacora-page';
 import { FormsModule } from '@angular/forms';
 import { FinanzasTallerComponent } from '../taller/finanzas/finanzas-taller/finanzas-taller';
 import { FinanzasSistemaComponent } from '../sistema/finanzas/finanzas-sistema/finanzas-sistema';
+import { AnaliticaTallerPage } from '../taller/analitica/analitica-taller-page';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, Logo, UserAvatar, Tabs, Sidebar, LoadingSpinner, NormalView, SolicitudesTallerPage, VehiculosPage, SolicitudesPage, SolicitudesPendientesPage, EmpleadosPage, TecnicosPage, VehiculosTallerPage, EspecialidadesPage, TalleresAdminPage, CategoriasIncidentesPage, IncidentesPage, ConfiguracionPage, PerfilTallerPage, ServiciosTallerPage, UsuariosPage, BitacoraPage, FinanzasTallerComponent, FinanzasSistemaComponent],
+  imports: [CommonModule, FormsModule, Logo, UserAvatar, Tabs, Sidebar, LoadingSpinner, NormalView, SolicitudesTallerPage, VehiculosPage, SolicitudesPage, SolicitudesPendientesPage, EmpleadosPage, TecnicosPage, VehiculosTallerPage, EspecialidadesPage, TalleresAdminPage, CategoriasIncidentesPage, IncidentesPage, ConfiguracionPage, PerfilTallerPage, ServiciosTallerPage, UsuariosPage, BitacoraPage, FinanzasTallerComponent, FinanzasSistemaComponent, AnaliticaTallerPage],
   templateUrl: './dashboard-page.html',
   styleUrls: ['./dashboard-page.scss']
 })
@@ -174,6 +175,7 @@ export class DashboardPage implements OnInit {
       const isMecanico = this.roles.includes('Mecanico') && !this.roles.includes('Administrador del Taller');
       this.sidebarItems = [
         { id: 'perfil', label: 'Perfil del Taller', icon: 'fa-building', visible: true },
+        { id: 'analitica', label: 'Analítica y KPIs', icon: 'fa-chart-pie', visible: !isMecanico },
         { id: 'solicitudes', label: 'Solicitudes', icon: 'fa-clipboard-list', visible: true },
         { id: 'servicios', label: 'Gestión de Servicios', icon: 'fa-tools', visible: true },
         { id: 'vehiculos', label: 'Vehículos', icon: 'fa-car', visible: !isMecanico },

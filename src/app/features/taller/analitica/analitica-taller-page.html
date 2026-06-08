@@ -1,0 +1,86 @@
+<div class="analitica-container">
+  <h2>Inteligencia Operacional y KPIs</h2>
+  
+  <div *ngIf="loading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i> Cargando métricas...
+  </div>
+  
+  <div *ngIf="!loading && kpis" class="kpi-grid">
+    <!-- Row 1: Cards -->
+    <div class="kpi-card">
+      <div class="kpi-icon"><i class="fas fa-clock"></i></div>
+      <div class="kpi-info">
+        <h3>T. Promedio Asignación</h3>
+        <p class="kpi-value">{{ kpis.tiempo_promedio_asignacion_minutos }} min</p>
+      </div>
+    </div>
+    
+    <div class="kpi-card">
+      <div class="kpi-icon"><i class="fas fa-truck-fast"></i></div>
+      <div class="kpi-info">
+        <h3>T. Promedio Llegada</h3>
+        <p class="kpi-value">{{ kpis.tiempo_promedio_llegada_minutos }} min</p>
+      </div>
+    </div>
+    
+    <div class="kpi-card" [class.danger]="kpis.nivel_cumplimiento_sla_porcentaje < 80" [class.success]="kpis.nivel_cumplimiento_sla_porcentaje >= 80">
+      <div class="kpi-icon"><i class="fas fa-check-double"></i></div>
+      <div class="kpi-info">
+        <h3>Cumplimiento SLA (30 min)</h3>
+        <p class="kpi-value">{{ kpis.nivel_cumplimiento_sla_porcentaje }}%</p>
+      </div>
+    </div>
+    
+    <div class="kpi-card danger">
+      <div class="kpi-icon"><i class="fas fa-times-circle"></i></div>
+      <div class="kpi-info">
+        <h3>Casos Cancelados</h3>
+        <p class="kpi-value">{{ kpis.casos_cancelados }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!loading && kpis" class="charts-grid">
+    <!-- Chart: Incidentes por tipo -->
+    <div class="chart-box">
+      <h3>Incidentes por Tipo</h3>
+      <div class="canvas-container">
+        <canvas #incidentesChart></canvas>
+        <div *ngIf="kpis.incidentes_por_tipo.length === 0" style="text-align: center; color: #999; margin-top: 4rem;">
+          No hay datos de incidentes registrados.
+        </div>
+      </div>
+    </div>
+    
+    <!-- Ranking de talleres -->
+    <div class="chart-box">
+      <h3>Eficiencia vs Otros Talleres (Red)</h3>
+      <div class="table-container">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Taller</th>
+              <th>T. Resolución Promedio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let t of kpis.talleres_mas_eficientes; let i = index" [class.highlight]="t.taller_id === tallerId">
+              <td>{{ i + 1 }}</td>
+              <td>{{ t.nombre }}</td>
+              <td>{{ t.tiempo_promedio_total_minutos }} min</td>
+            </tr>
+            <tr *ngIf="kpis.talleres_mas_eficientes.length === 0">
+              <td colspan="3" style="text-align: center; color: #999;">No hay suficientes datos de talleres.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!loading && kpis" class="map-section">
+    <h3>Zonas con más incidentes</h3>
+    <div id="incidents-map" class="map-container"></div>
+  </div>
+</div>

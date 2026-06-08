@@ -47,6 +47,7 @@
               <app-tecnicos-page *ngIf="currentView === 'taller_tecnicos'" [tallerId]="selectedTallerId"></app-tecnicos-page>
               <app-empleados-page *ngIf="currentView === 'taller_empleados'" [tallerId]="selectedTallerId"></app-empleados-page>
               <app-finanzas-taller *ngIf="currentView === 'taller_finanzas'" [tallerId]="selectedTallerId"></app-finanzas-taller>
+              <app-analitica-taller-page *ngIf="currentView === 'taller_analitica'" [tallerId]="selectedTallerId"></app-analitica-taller-page>
             </div>
           </div>
         </ng-container>

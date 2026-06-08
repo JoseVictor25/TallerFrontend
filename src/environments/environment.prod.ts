@@ -1,5 +1,5 @@
 // ng build --configuration=production
 export const environment = {
   production: true,
-  apiUrl: 'https://talleres-si2-production.up.railway.app/api/v1'
+  apiUrl: 'https://web-production-78e2d.up.railway.app/api/v1'
 };

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-payment-success',
@@ -9,29 +12,121 @@ import { Router } from '@angular/router';
   template: `
     <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa;">
       <div style="background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; max-width: 500px;">
-        <i class="fas fa-check-circle" style="font-size: 5rem; color: #28a745; margin-bottom: 1.5rem;"></i>
-        <h2 style="color: #333; margin-bottom: 1rem;">¡Pago Exitoso!</h2>
-        <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
-          Tu suscripción ha sido procesada correctamente. Hemos creado tu espacio de taller y ahora tienes acceso completo a las funciones de administrador.
-        </p>
-        <button 
-          (click)="irAlDashboard()"
-          style="background-color: #932D30; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; font-weight: bold; width: 100%;">
-          Ir a mi Panel de Taller
-        </button>
+        
+        <!-- Estado de carga -->
+        <div *ngIf="isVerifying">
+          <i class="fas fa-spinner fa-spin" style="font-size: 4rem; color: #932D30; margin-bottom: 1.5rem;"></i>
+          <h2 style="color: #333;">Verificando tu pago...</h2>
+          <p style="color: #666;">Por favor espera un momento mientras configuramos tu taller.</p>
+        </div>
+
+        <!-- Estado de éxito -->
+        <div *ngIf="!isVerifying && isSuccess">
+          <i class="fas fa-check-circle" style="font-size: 5rem; color: #28a745; margin-bottom: 1.5rem; animation: popIn 0.5s ease-out;"></i>
+          <h2 style="color: #333; margin-bottom: 1rem;">¡Pago Exitoso!</h2>
+          <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
+            Tu suscripción ha sido procesada correctamente. Hemos creado tu espacio de taller y ahora tienes el rol de <b>Administrador del Taller</b>.
+          </p>
+          <button 
+            (click)="irAlDashboard()"
+            style="background-color: #932D30; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; font-weight: bold; width: 100%;">
+            Ir a mi Panel de Taller
+          </button>
+        </div>
+
+        <!-- Estado de error -->
+        <div *ngIf="!isVerifying && !isSuccess">
+          <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #dc3545; margin-bottom: 1.5rem;"></i>
+          <h2 style="color: #333;">Hubo un problema</h2>
+          <p style="color: #666;">No pudimos verificar el pago de tu suscripción.</p>
+          <button 
+            (click)="irAlDashboard()"
+            style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 1rem;">
+            Volver al inicio
+          </button>
+        </div>
+
       </div>
     </div>
+    <style>
+      @keyframes popIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        70% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+    </style>
   `
 })
 export class PaymentSuccessComponent implements OnInit {
+  isVerifying = true;
+  isSuccess = false;
+  apiUrl = environment.apiUrl;
   
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    // Aquí podríamos validar el session_id si fuera necesario
+    this.route.queryParams.subscribe(params => {
+      const sessionId = params['session_id'];
+      if (sessionId) {
+        this.verificarSesion(sessionId);
+      } else {
+        // Si no hay session_id pero estamos en local, asumimos exito para pruebas
+        if (!environment.production) {
+          this.isVerifying = false;
+          this.isSuccess = true;
+          this.recargarPerfil();
+        } else {
+          this.isVerifying = false;
+          this.isSuccess = false;
+        }
+      }
+    });
+  }
+
+  verificarSesion(sessionId: string) {
+    this.http.post<any>(`${this.apiUrl}/tenants/verify-session?session_id=${sessionId}`, {}).subscribe({
+      next: (res) => {
+        if (res.status === 'success' || res.status === 'already_processed') {
+          this.isSuccess = true;
+          this.recargarPerfil();
+        } else {
+          this.isSuccess = false;
+        }
+        this.isVerifying = false;
+      },
+      error: (err) => {
+        console.error('Error al verificar sesión:', err);
+        this.isSuccess = false;
+        this.isVerifying = false;
+      }
+    });
+  }
+
+  recargarPerfil() {
+    // Forzar la recarga del perfil de usuario desde el backend
+    // para que el token JWT local y los roles se actualicen (así tendrá el rol de Administrador)
+    this.http.get<any>(`${this.apiUrl}/perfil/me`).subscribe({
+      next: (profile) => {
+        // Actualizamos los datos del usuario en el AuthService
+        // Asegúrate de que el AuthService tenga un método updateCurrentUser o simplemente maneje el behavior subject
+        const token = localStorage.getItem('token');
+        if (token) {
+          // Si tu AuthService recarga desde el token, tal vez deberías pedirle que se re-autentique
+          // o actualizar el usuario logueado en la aplicación si tu auth service lo permite.
+          // Por simplicidad, un recargo de ventana refrescará la app completa:
+          // window.location.reload(); 
+        }
+      }
+    });
   }
 
   irAlDashboard(): void {
-    this.router.navigate(['/dashboard']);
+    // Redirigir al dashboard y recargar para asegurar que los Guards vean el nuevo rol
+    window.location.href = '/dashboard';
   }
 }

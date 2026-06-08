@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -38,7 +38,7 @@ import { AuthService } from '../../core/services/auth.service';
         <div *ngIf="!isVerifying && !isSuccess">
           <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #dc3545; margin-bottom: 1.5rem;"></i>
           <h2 style="color: #333;">Hubo un problema</h2>
-          <p style="color: #666;">No pudimos verificar el pago de tu suscripción.</p>
+          <p style="color: #666;">No pudimos verificar el pago de tu suscripción. Es posible que el pago no se haya completado o haya ocurrido un error.</p>
           <button 
             (click)="irAlDashboard()"
             style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; margin-top: 1rem;">
@@ -66,7 +66,8 @@ export class PaymentSuccessComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -84,6 +85,7 @@ export class PaymentSuccessComponent implements OnInit {
           this.isVerifying = false;
           this.isSuccess = false;
         }
+        this.cdr.detectChanges();
       }
     });
   }
@@ -98,35 +100,22 @@ export class PaymentSuccessComponent implements OnInit {
           this.isSuccess = false;
         }
         this.isVerifying = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error al verificar sesión:', err);
         this.isSuccess = false;
         this.isVerifying = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   recargarPerfil() {
-    // Forzar la recarga del perfil de usuario desde el backend
-    // para que el token JWT local y los roles se actualicen (así tendrá el rol de Administrador)
-    this.http.get<any>(`${this.apiUrl}/perfil/me`).subscribe({
-      next: (profile) => {
-        // Actualizamos los datos del usuario en el AuthService
-        // Asegúrate de que el AuthService tenga un método updateCurrentUser o simplemente maneje el behavior subject
-        const token = localStorage.getItem('token');
-        if (token) {
-          // Si tu AuthService recarga desde el token, tal vez deberías pedirle que se re-autentique
-          // o actualizar el usuario logueado en la aplicación si tu auth service lo permite.
-          // Por simplicidad, un recargo de ventana refrescará la app completa:
-          // window.location.reload(); 
-        }
-      }
-    });
+    this.http.get<any>(`${this.apiUrl}/perfil/me`).subscribe();
   }
 
   irAlDashboard(): void {
-    // Redirigir al dashboard y recargar para asegurar que los Guards vean el nuevo rol
     window.location.href = '/dashboard';
   }
 }

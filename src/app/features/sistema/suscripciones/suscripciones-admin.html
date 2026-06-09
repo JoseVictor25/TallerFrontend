@@ -1,0 +1,50 @@
+<div class="suscripciones-container">
+  <div class="header">
+    <h2>Suscripciones de Talleres</h2>
+    <p>Monitorea qué talleres tienen planes activos.</p>
+  </div>
+
+  <app-loading-spinner *ngIf="isLoading" text="Cargando suscripciones..."></app-loading-spinner>
+
+  <div class="error-message" *ngIf="error">
+    <i class="fas fa-exclamation-triangle"></i> {{ error }}
+    <button (click)="loadSuscripciones()">Reintentar</button>
+  </div>
+
+  <div class="table-card" *ngIf="!isLoading && !error">
+    <div class="empty-state" *ngIf="suscripciones.length === 0">
+      <i class="fas fa-receipt"></i>
+      <p>No hay suscripciones registradas aún.</p>
+    </div>
+
+    <table class="suscripciones-table" *ngIf="suscripciones.length > 0">
+      <thead>
+        <tr>
+          <th>Taller</th>
+          <th>Administrador</th>
+          <th>Email</th>
+          <th>Plan</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of suscripciones">
+          <td class="taller-cell">
+            <div class="taller-name">{{ s.taller }}</div>
+          </td>
+          <td>{{ s.administrador }}</td>
+          <td class="email-cell">{{ s.email }}</td>
+          <td>
+            <span class="badge" [ngClass]="getPlanClass(s.plan)">
+              {{ s.plan }}
+            </span>
+          </td>
+          <td>
+            <span class="status-dot" [ngClass]="getStatusClass(s.estado)"></span>
+            {{ formatStatus(s.estado) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

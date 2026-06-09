@@ -32,11 +32,12 @@ import { FormsModule } from '@angular/forms';
 import { FinanzasTallerComponent } from '../taller/finanzas/finanzas-taller/finanzas-taller';
 import { FinanzasSistemaComponent } from '../sistema/finanzas/finanzas-sistema/finanzas-sistema';
 import { AnaliticaTallerPage } from '../taller/analitica/analitica-taller-page';
+import { SuscripcionesAdmin } from '../sistema/suscripciones/suscripciones-admin';
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, Logo, UserAvatar, Tabs, Sidebar, LoadingSpinner, NormalView, SolicitudesTallerPage, VehiculosPage, SolicitudesPage, SolicitudesPendientesPage, EmpleadosPage, TecnicosPage, VehiculosTallerPage, EspecialidadesPage, TalleresAdminPage, CategoriasIncidentesPage, IncidentesPage, ConfiguracionPage, PerfilTallerPage, ServiciosTallerPage, UsuariosPage, BitacoraPage, FinanzasTallerComponent, FinanzasSistemaComponent, AnaliticaTallerPage],
+  imports: [CommonModule, FormsModule, Logo, UserAvatar, Tabs, Sidebar, LoadingSpinner, NormalView, SolicitudesTallerPage, VehiculosPage, SolicitudesPage, SolicitudesPendientesPage, EmpleadosPage, TecnicosPage, VehiculosTallerPage, EspecialidadesPage, TalleresAdminPage, CategoriasIncidentesPage, IncidentesPage, ConfiguracionPage, PerfilTallerPage, ServiciosTallerPage, UsuariosPage, BitacoraPage, FinanzasTallerComponent, FinanzasSistemaComponent, AnaliticaTallerPage, SuscripcionesAdmin],
   templateUrl: './dashboard-page.html',
   styleUrls: ['./dashboard-page.scss']
 })
@@ -193,7 +194,8 @@ export class DashboardPage implements OnInit {
         { id: 'solicitudes-pendientes', label: 'Solicitudes de afiliación', icon: 'fa-clipboard-list', visible: true },
         { id: 'talleres', label: 'Talleres', icon: 'fa-building', visible: true },
         { id: 'configuracion', label: 'Configurar Criterios', icon: 'fa-cog', visible: true },
-        { id: 'finanzas-globales', label: 'Finanzas Globales', icon: 'fa-chart-line', visible: true }
+        { id: 'finanzas-globales', label: 'Finanzas Globales', icon: 'fa-chart-line', visible: true },
+        { id: 'suscripciones', label: 'Suscripciones', icon: 'fa-receipt', visible: true }
       ];
     }
   }

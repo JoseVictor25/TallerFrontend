@@ -1,0 +1,152 @@
+.suscripciones-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.4s ease-out;
+
+  .header {
+    h2 {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin: 0 0 0.5rem 0;
+    }
+    p {
+      color: #7f8c8d;
+      margin: 0;
+    }
+  }
+
+  .error-message {
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #dc2626;
+      }
+    }
+  }
+
+  .table-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+
+    .empty-state {
+      padding: 3rem;
+      text-align: center;
+      color: #94a3b8;
+
+      i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #cbd5e1;
+      }
+    }
+
+    .suscripciones-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 1rem 1.5rem;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f8fafc;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      td {
+        border-bottom: 1px solid #f1f5f9;
+        color: #334155;
+        font-size: 0.95rem;
+
+        &.taller-cell {
+          font-weight: 600;
+          color: #0f172a;
+        }
+
+        &.email-cell {
+          color: #64748b;
+        }
+      }
+
+      tbody tr {
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #f8fafc;
+        }
+
+        &:last-child td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    &.plan-basico {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+    &.plan-pro {
+      background-color: #fce7f3;
+      color: #be185d;
+    }
+    &.plan-premium {
+      background-color: #fef3c7;
+      color: #b45309;
+    }
+    &.plan-default {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+
+    &.status-active { background-color: #10b981; }
+    &.status-canceled { background-color: #ef4444; }
+    &.status-past-due { background-color: #f59e0b; }
+    &.status-error { background-color: #64748b; }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

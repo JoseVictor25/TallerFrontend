@@ -10,6 +10,8 @@ export interface Taller {
   email: string;
   ubicacion?: string;
   estado: string;
+  creador_nombre?: string;
+  creador_email?: string;
 }
 
 export interface TallerDetail {

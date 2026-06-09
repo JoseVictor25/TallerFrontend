@@ -16,6 +16,9 @@
           <div class="info">
             <h3>{{ t.nombre }}</h3>
             <p>{{ t.email }} · {{ t.telefono }}</p>
+            <p *ngIf="t.creador_nombre" style="font-size: 0.85rem; color: #555; margin-top: 4px;">
+              Registrado por: <strong>{{ t.creador_nombre }}</strong> ({{ t.creador_email }})
+            </p>
           </div>
           <div class="actions">
             <app-button variant="secondary" (click)="suspender(t)">Suspender</app-button>
@@ -35,6 +38,9 @@
           <div class="info">
             <h3>{{ t.nombre }}</h3>
             <p>{{ t.email }} · {{ t.telefono }}</p>
+            <p *ngIf="t.creador_nombre" style="font-size: 0.85rem; color: #555; margin-top: 4px;">
+              Registrado por: <strong>{{ t.creador_nombre }}</strong> ({{ t.creador_email }})
+            </p>
           </div>
           <div class="actions">
             <app-button (click)="activar(t)">Activar</app-button>

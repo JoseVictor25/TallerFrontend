@@ -62,7 +62,7 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
         setTimeout(() => {
           this.renderChart();
           this.updateMap();
-        }, 100);
+        }, 300); // Dar más tiempo para que Angular renderice el DOM
       },
       error: (err) => {
         console.error('Error cargando KPIs:', err);
@@ -72,13 +72,21 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
   }
   
   renderChart() {
-    if (!this.kpis || !this.incidentesChartRef) return;
+    if (!this.kpis) return;
+    
+    // Si no encuentra el ref pero el div existe, lo buscamos manualmente
+    let canvas = this.incidentesChartRef?.nativeElement;
+    if (!canvas) {
+      canvas = document.getElementById('incidentes-chart-canvas') as HTMLCanvasElement;
+    }
+    
+    if (!canvas) return;
     
     if (this.chartInstance) {
       this.chartInstance.destroy();
     }
     
-    const ctx = this.incidentesChartRef.nativeElement.getContext('2d');
+    const ctx = canvas.getContext('2d');
     const labels = this.kpis.incidentes_por_tipo.map(i => i.tipo);
     const data = this.kpis.incidentes_por_tipo.map(i => i.cantidad);
     
@@ -120,6 +128,11 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
     }
 
     if (!this.map) return;
+    
+    // Invalidate size to fix leaflet grey/blank tile issue when loading in ngIf
+    setTimeout(() => {
+      this.map?.invalidateSize();
+    }, 100);
 
     // Clear previous markers
     this.map.eachLayer((layer) => {

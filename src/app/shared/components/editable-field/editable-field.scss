@@ -1,88 +1,114 @@
 .editable-field {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   .field-label {
-    font-weight: 500;
-    color: var(--color-secondary);
-    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
     font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .field-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #F9F9F9;
-    border: 1px solid #E2E2E2;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 12px;
-    padding: 0.5rem 1rem;
-    transition: all 0.2s;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 
     &:hover {
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
       border-color: var(--color-primary);
     }
 
     .field-value {
       flex: 1;
-      color: var(--color-text-dark);
-      font-size: 1rem;
+      color: #333;
+      font-size: 1.05rem;
       word-break: break-word;
+      font-weight: 500;
 
       &.empty {
-        color: #aaa;
+        color: #999;
         font-style: italic;
+        font-weight: 400;
       }
     }
 
     .edit-btn {
-      background: none;
-      border: none;
+      background: white;
+      border: 1px solid #eee;
       cursor: pointer;
       color: var(--color-primary);
-      font-size: 0.9rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      transition: background 0.2s;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 
       &:hover {
-        background: rgba(0,0,0,0.05);
+        background: var(--color-primary);
+        color: white;
+        transform: rotate(15deg);
       }
     }
 
     &.editing {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.75rem;
-      background-color: white;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      background: white;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 2px rgba(147,45,48,0.1);
+      box-shadow: 0 0 0 4px rgba(147,45,48,0.1);
+      transform: none;
 
       app-input-field {
-        width: 100%;
+        flex: 1;
       }
 
       .edit-actions {
         display: flex;
         gap: 0.5rem;
-        justify-content: flex-end;
 
         button {
-          background: none;
-          border: none;
+          background: white;
+          border: 1px solid #eee;
           cursor: pointer;
-          font-size: 1rem;
-          padding: 0.25rem 0.5rem;
-          border-radius: 4px;
-          transition: background 0.2s;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 
           &.confirm-btn {
             color: #2e7d32;
+            &:hover {
+              background: #2e7d32;
+              color: white;
+              border-color: #2e7d32;
+            }
           }
           &.cancel-btn {
             color: #d32f2f;
-          }
-          &:hover {
-            background: rgba(0,0,0,0.05);
+            &:hover {
+              background: #d32f2f;
+              color: white;
+              border-color: #d32f2f;
+            }
           }
         }
       }

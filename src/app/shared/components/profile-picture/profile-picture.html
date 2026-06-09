@@ -1,3 +1,3 @@
 <div class="profile-picture" (click)="click.emit()">
-  <img [src]="photoUrl || 'assets/default-avatar.png'" alt="Avatar">
+  <img [src]="photoUrl || 'assets/default-avatar.png'" alt="Avatar" (error)="handleImageError($event)">
 </div>

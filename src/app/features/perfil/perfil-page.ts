@@ -20,6 +20,7 @@ import { ProfilePictureModal } from './components/profile-picture-modal/profile-
 export class PerfilPage implements OnInit {
   profile: UserProfile | null = null;
   isLoading = false;
+  isSavingProfile = false;
   sidebarItems: SidebarItem[] = [
     { id: 'personal', label: 'Datos personales', icon: 'fa-user', visible: true },
     { id: 'password', label: 'Cambiar contraseña', icon: 'fa-key', visible: true }
@@ -57,16 +58,17 @@ export class PerfilPage implements OnInit {
     this.activeSidebarItemId = itemId;
   }
 
-  onUpdateField(event: { field: keyof UserProfile; value: any }) {
-    if (!this.profile) return;
-    const updateData = { [event.field]: event.value };
-    this.profileService.updateProfile(updateData).subscribe({
+  onSaveProfile(data: Partial<UserProfile>) {
+    this.isSavingProfile = true;
+    this.profileService.updateProfile(data).subscribe({
       next: (updated) => {
         this.loadProfile();
-        this.notificationService.showSuccess('Campo actualizado');
+        this.isSavingProfile = false;
+        this.notificationService.showSuccess('Perfil actualizado');
       },
       error: (err) => {
-        this.notificationService.showError(err.error?.detail || 'Error al actualizar');
+        this.isSavingProfile = false;
+        this.notificationService.showError(err.error?.detail || 'Error al actualizar perfil');
       }
     });
   }

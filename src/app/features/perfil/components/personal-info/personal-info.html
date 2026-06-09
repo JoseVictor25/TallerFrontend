@@ -2,72 +2,79 @@
   <div class="photo-section">
     <app-profile-picture [photoUrl]="profile?.url_img_perfil ?? null" [username]="profile?.username || ''" (click)="photoClick.emit()"></app-profile-picture>
   </div>
-  <div class="fields">
-    <app-editable-field
-      label="Nombre de usuario"
-      [value]="profile?.username"
-      icon="fa-user"
-      [required]="true"
-      [maxLength]="100"
-      [minLength]="3"
-      (save)="updateField.emit({ field: 'username', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="Nombre"
-      [value]="profile?.nombre"
-      icon="fa-user"
-      [maxLength]="100"
-      pattern="^[A-Za-záéíóúüñÁÉÍÓÚÜÑ\s]+$"
-      (save)="updateField.emit({ field: 'nombre', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="Apellido paterno"
-      [value]="profile?.apellido_p"
-      icon="fa-user"
-      [maxLength]="100"
-      pattern="^[A-Za-záéíóúüñÁÉÍÓÚÜÑ\s]+$"
-      (save)="updateField.emit({ field: 'apellido_p', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="Apellido materno"
-      [value]="profile?.apellido_m"
-      icon="fa-user"
-      [maxLength]="100"
-      pattern="^[A-Za-záéíóúüñÁÉÍÓÚÜÑ\s]+$"
-      (save)="updateField.emit({ field: 'apellido_m', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="CI"
-      [value]="profile?.ci"
-      icon="fa-id-card"
-      [maxLength]="10"
-      pattern="^[0-9]+$"
-      inputMode="numeric"
-      (save)="updateField.emit({ field: 'ci', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="Complemento"
-      [value]="profile?.complemento"
-      icon="fa-id-card"
-      [maxLength]="2"
-      pattern="^[A-Za-z0-9]+$"
-      (save)="updateField.emit({ field: 'complemento', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="Teléfono"
-      [value]="profile?.telefono"
-      icon="fa-phone"
-      [maxLength]="15"
-      pattern="^[0-9]+$"
-      inputMode="numeric"
-      (save)="updateField.emit({ field: 'telefono', value: $event })"
-    ></app-editable-field>
-    <app-editable-field
-      label="Dirección"
-      [value]="profile?.direccion"
-      icon="fa-home"
-      [maxLength]="255"
-      (save)="updateField.emit({ field: 'direccion', value: $event })"
-    ></app-editable-field>
+  <div class="form-content">
+    <div class="fields">
+      <div class="field-group">
+        <label>Nombre de usuario</label>
+        <app-input-field
+          [(ngModel)]="editData.username"
+          icon="fa-user"
+          [required]="true"
+          [maxLength]="100"
+          [minLength]="3"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>Nombre</label>
+        <app-input-field
+          [(ngModel)]="editData.nombre"
+          icon="fa-user"
+          [maxLength]="100"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>Apellido paterno</label>
+        <app-input-field
+          [(ngModel)]="editData.apellido_p"
+          icon="fa-user"
+          [maxLength]="100"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>Apellido materno</label>
+        <app-input-field
+          [(ngModel)]="editData.apellido_m"
+          icon="fa-user"
+          [maxLength]="100"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>CI</label>
+        <app-input-field
+          [(ngModel)]="editData.ci"
+          icon="fa-id-card"
+          [maxLength]="10"
+          inputMode="numeric"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>Complemento</label>
+        <app-input-field
+          [(ngModel)]="editData.complemento"
+          icon="fa-id-card"
+          [maxLength]="2"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>Teléfono</label>
+        <app-input-field
+          [(ngModel)]="editData.telefono"
+          icon="fa-phone"
+          [maxLength]="15"
+          inputMode="numeric"
+        ></app-input-field>
+      </div>
+      <div class="field-group">
+        <label>Dirección</label>
+        <app-input-field
+          [(ngModel)]="editData.direccion"
+          icon="fa-home"
+          [maxLength]="255"
+        ></app-input-field>
+      </div>
+    </div>
+    <div class="actions">
+      <app-button (click)="onSave()" [loading]="isLoading">Guardar cambios</app-button>
+    </div>
   </div>
 </div>

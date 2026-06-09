@@ -17,7 +17,8 @@
           <app-personal-info
             *ngIf="activeSidebarItemId === 'personal'"
             [profile]="profile"
-            (updateField)="onUpdateField($event)"
+            [isLoading]="isSavingProfile"
+            (saveProfile)="onSaveProfile($event)"
             (photoClick)="openPhotoModal()"
           ></app-personal-info>
           <app-change-password

@@ -1,15 +1,52 @@
 .personal-info {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   flex-wrap: wrap;
+
   .photo-section {
-    flex: 0 0 120px;
+    flex: 0 0 140px;
+    display: flex;
+    justify-content: center;
   }
-  .fields {
+
+  .form-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
+
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+
+    .field-group {
+      label {
+        display: block;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+  }
+
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+    .photo-section {
+      margin-bottom: 1rem;
+    }
   }
 }

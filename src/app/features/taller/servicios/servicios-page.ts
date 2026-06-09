@@ -467,7 +467,21 @@ export class ServiciosTallerPage implements OnInit {
   // ============================================================
 
   formatFecha(fecha: string): string {
-    return new Date(fecha).toLocaleString('es-ES');
+    if (!fecha) return '-';
+    // Si la fecha no tiene indicador de zona horaria (Z o +hh:mm), asumimos que es UTC
+    let fechaUtc = fecha;
+    if (fecha.indexOf('T') !== -1 && !fecha.endsWith('Z') && !fecha.match(/[+-]\d{2}:\d{2}$/)) {
+      fechaUtc += 'Z';
+    }
+    return new Date(fechaUtc).toLocaleString('es-ES', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    });
   }
 
   onImageError(event: any, evidencia: any): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnaliticaService, KpiResponse } from '../../../core/services/analitica.service';
 import { Chart, registerables } from 'chart.js';
@@ -39,7 +39,10 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
   
   map: L.Map | null = null;
   
-  constructor(private analiticaService: AnaliticaService) {}
+  constructor(
+    private analiticaService: AnaliticaService,
+    private cdr: ChangeDetectorRef
+  ) {}
   
   ngOnInit() {}
   
@@ -55,18 +58,22 @@ export class AnaliticaTallerPage implements OnInit, OnChanges, AfterViewInit {
   
   loadKpis() {
     this.loading = true;
+    this.cdr.detectChanges();
     this.analiticaService.getKpisTaller(this.tallerId).subscribe({
       next: (res) => {
         this.kpis = res;
         this.loading = false;
+        this.cdr.detectChanges(); // Forzar actualización de vista
         setTimeout(() => {
           this.renderChart();
           this.updateMap();
+          this.cdr.detectChanges();
         }, 300); // Dar más tiempo para que Angular renderice el DOM
       },
       error: (err) => {
         console.error('Error cargando KPIs:', err);
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

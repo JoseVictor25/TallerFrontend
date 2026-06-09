@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SuscripcionService, SuscripcionActiva } from '../../../../core/services/suscripcion.service';
-import { LoadingSpinner } from '../../../../shared/components/loading-spinner/loading-spinner';
+import { SuscripcionService, SuscripcionActiva } from '../../../core/services/suscripcion.service';
+import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-suscripciones-admin',
@@ -24,11 +24,11 @@ export class SuscripcionesAdmin implements OnInit {
   loadSuscripciones() {
     this.isLoading = true;
     this.suscripcionService.getSuscripcionesActivas().subscribe({
-      next: (data) => {
+      next: (data: SuscripcionActiva[]) => {
         this.suscripciones = data;
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         this.error = 'Error al cargar las suscripciones';
         this.isLoading = false;
       }

@@ -573,3 +573,26 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
 }
+.asignacion-recursos-wrapper {
+  .alert {
+    border-left: 4px solid var(--color-primary);
+  }
+  .recurso-card {
+    transition: all 0.3s ease;
+    background-color: #fff;
+    cursor: default;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.08)!important;
+      border-color: var(--color-primary-light)!important;
+    }
+    .form-select {
+      background-color: #f8f9fa;
+      &:focus {
+        background-color: #fff;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.25rem rgba(var(--color-primary-rgb), 0.25);
+      }
+    }
+  }
+}

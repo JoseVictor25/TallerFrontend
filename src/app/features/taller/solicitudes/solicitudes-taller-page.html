@@ -54,37 +54,70 @@
   </div>
 
   <app-modal
-    title="Asignar Técnicos y Vehículos"
+    title="Asignar Recursos al Servicio"
     [visible]="showAceptarModal"
-    (close)="cerrarModal()">
+    (close)="cerrarModal()"
+    [size]="'large'">
     
-    <div class="form-group mb-3">
-      <label>Técnico *</label>
-      <select class="form-control" [(ngModel)]="selectedTecnicoId">
-        <option [ngValue]="null">Selecciona un técnico...</option>
-        <option *ngFor="let t of tecnicosDisponibles" [value]="t.id">
-          {{ t.nombre_completo }} ({{ t.especialidades.join(', ') || 'Sin especialidad' }})
-        </option>
-      </select>
-      <small *ngIf="tecnicosDisponibles.length === 0" class="text-danger">No hay técnicos disponibles en este momento.</small>
-    </div>
+    <div class="asignacion-recursos-wrapper p-3">
+      <div class="alert alert-info bg-light border-0 shadow-sm rounded-3 mb-4 p-3 d-flex align-items-center">
+        <i class="fa-solid fa-circle-info text-primary fa-lg me-3"></i>
+        <div>
+          <h6 class="mb-1 fw-bold text-dark">Confirmación de Asignación</h6>
+          <p class="mb-0 text-muted small">Por favor, selecciona el técnico responsable y el vehículo que utilizará para atender este servicio.</p>
+        </div>
+      </div>
 
-    <div class="form-group mb-4">
-      <label>Vehículo (Opcional)</label>
-      <select class="form-control" [(ngModel)]="selectedVehiculoId">
-        <option [ngValue]="null">Ninguno</option>
-        <option *ngFor="let v of vehiculosDisponibles" [value]="v.id">
-          {{ v.marca }} {{ v.modelo }} - {{ v.matricula }}
-        </option>
-      </select>
-    </div>
+      <div class="row g-4">
+        <!-- Técnico -->
+        <div class="col-md-6">
+          <div class="recurso-card h-100 p-4 border rounded-4 position-relative">
+            <div class="recurso-icon bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 48px; height: 48px;">
+              <i class="fa-solid fa-user-wrench fa-lg"></i>
+            </div>
+            <h6 class="fw-bold mb-3">Técnico Asignado <span class="text-danger">*</span></h6>
+            <div class="form-group mb-0">
+              <select class="form-select form-select-lg shadow-none border-secondary-subtle" [(ngModel)]="selectedTecnicoId" style="border-radius: 8px;">
+                <option [ngValue]="null">Selecciona un técnico experto...</option>
+                <option *ngFor="let t of tecnicosDisponibles" [value]="t.id">
+                  {{ t.nombre_completo }} ({{ t.especialidades.join(', ') || 'General' }})
+                </option>
+              </select>
+              <div *ngIf="tecnicosDisponibles.length === 0" class="text-danger small mt-2 d-flex align-items-center">
+                <i class="fa-solid fa-triangle-exclamation me-1"></i> No hay técnicos disponibles.
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <div class="d-flex justify-content-end gap-2 mt-4">
-      <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
-      <button class="btn btn-success" (click)="confirmarAceptar()" [disabled]="!selectedTecnicoId || isSubmitting">
-        <span *ngIf="!isSubmitting">Confirmar y Asignar</span>
-        <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin"></i> Asignando...</span>
-      </button>
+        <!-- Vehículo -->
+        <div class="col-md-6">
+          <div class="recurso-card h-100 p-4 border rounded-4 position-relative">
+            <div class="recurso-icon bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 48px; height: 48px;">
+              <i class="fa-solid fa-truck-fast fa-lg"></i>
+            </div>
+            <h6 class="fw-bold mb-3">Vehículo de Apoyo <span class="text-muted fw-normal fs-6">(Opcional)</span></h6>
+            <div class="form-group mb-0">
+              <select class="form-select form-select-lg shadow-none border-secondary-subtle" [(ngModel)]="selectedVehiculoId" style="border-radius: 8px;">
+                <option [ngValue]="null">Ninguno</option>
+                <option *ngFor="let v of vehiculosDisponibles" [value]="v.id">
+                  {{ v.marca }} {{ v.modelo }} - {{ v.matricula }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions-custom mt-5 border-top pt-4">
+        <button class="btn btn-secondary-custom" (click)="cerrarModal()">
+          <i class="fa-solid fa-xmark me-2"></i>Cancelar
+        </button>
+        <button class="btn btn-primary-custom px-4" (click)="confirmarAceptar()" [disabled]="!selectedTecnicoId || isSubmitting">
+          <span *ngIf="!isSubmitting"><i class="fa-solid fa-check-double me-2"></i> Confirmar y Asignar</span>
+          <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i> Asignando...</span>
+        </button>
+      </div>
     </div>
   </app-modal>
 

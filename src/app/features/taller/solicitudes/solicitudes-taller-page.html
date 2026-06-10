@@ -59,32 +59,32 @@
     (close)="cerrarModal()"
     [size]="'large'">
     
-    <div class="asignacion-recursos-wrapper p-3">
-      <div class="alert alert-info bg-light border-0 shadow-sm rounded-3 mb-4 p-3 d-flex align-items-center">
-        <i class="fa-solid fa-circle-info text-primary fa-lg me-3"></i>
-        <div>
-          <h6 class="mb-1 fw-bold text-dark">Confirmación de Asignación</h6>
-          <p class="mb-0 text-muted small">Por favor, selecciona el técnico responsable y el vehículo que utilizará para atender este servicio.</p>
-        </div>
+    <div class="asignacion-recursos-wrapper p-2">
+      <div class="elegant-header mb-4">
+        <h5 class="fw-bold text-dark mb-2">Confirmación de Asignación</h5>
+        <p class="text-muted mb-0">Selecciona cuidadosamente al técnico responsable y el vehículo de asistencia para este servicio. Esta acción notificará al cliente.</p>
       </div>
 
       <div class="row g-4">
         <!-- Técnico -->
         <div class="col-md-6">
-          <div class="recurso-card h-100 p-4 border rounded-4 position-relative">
-            <div class="recurso-icon bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 48px; height: 48px;">
-              <i class="fa-solid fa-user-wrench fa-lg"></i>
-            </div>
-            <h6 class="fw-bold mb-3">Técnico Asignado <span class="text-danger">*</span></h6>
-            <div class="form-group mb-0">
-              <select class="form-select form-select-lg shadow-none border-secondary-subtle" [(ngModel)]="selectedTecnicoId" style="border-radius: 8px;">
-                <option [ngValue]="null">Selecciona un técnico experto...</option>
-                <option *ngFor="let t of tecnicosDisponibles" [value]="t.id">
-                  {{ t.nombre_completo }} ({{ t.especialidades.join(', ') || 'General' }})
-                </option>
-              </select>
-              <div *ngIf="tecnicosDisponibles.length === 0" class="text-danger small mt-2 d-flex align-items-center">
-                <i class="fa-solid fa-triangle-exclamation me-1"></i> No hay técnicos disponibles.
+          <div class="elegant-card h-100 position-relative">
+            <div class="card-glass-effect"></div>
+            <div class="card-content">
+              <div class="icon-wrapper bg-gradient-primary mb-3">
+                <i class="fa-solid fa-user-tie fa-lg text-white"></i>
+              </div>
+              <h6 class="fw-bold mb-3 text-dark">Técnico Asignado <span class="text-danger">*</span></h6>
+              <div class="form-group mb-0">
+                <select class="form-select custom-elegant-select" [(ngModel)]="selectedTecnicoId">
+                  <option [ngValue]="null">Selecciona un técnico experto...</option>
+                  <option *ngFor="let t of tecnicosDisponibles" [value]="t.id">
+                    {{ t.nombre_completo }} ({{ t.especialidades.join(', ') || 'General' }})
+                  </option>
+                </select>
+                <div *ngIf="tecnicosDisponibles.length === 0" class="text-danger small mt-2 d-flex align-items-center">
+                  <i class="fa-solid fa-triangle-exclamation me-1"></i> No hay técnicos disponibles.
+                </div>
               </div>
             </div>
           </div>
@@ -92,30 +92,33 @@
 
         <!-- Vehículo -->
         <div class="col-md-6">
-          <div class="recurso-card h-100 p-4 border rounded-4 position-relative">
-            <div class="recurso-icon bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 48px; height: 48px;">
-              <i class="fa-solid fa-truck-fast fa-lg"></i>
-            </div>
-            <h6 class="fw-bold mb-3">Vehículo de Apoyo <span class="text-muted fw-normal fs-6">(Opcional)</span></h6>
-            <div class="form-group mb-0">
-              <select class="form-select form-select-lg shadow-none border-secondary-subtle" [(ngModel)]="selectedVehiculoId" style="border-radius: 8px;">
-                <option [ngValue]="null">Ninguno</option>
-                <option *ngFor="let v of vehiculosDisponibles" [value]="v.id">
-                  {{ v.marca }} {{ v.modelo }} - {{ v.matricula }}
-                </option>
-              </select>
+          <div class="elegant-card h-100 position-relative">
+            <div class="card-glass-effect"></div>
+            <div class="card-content">
+              <div class="icon-wrapper bg-gradient-success mb-3">
+                <i class="fa-solid fa-truck fa-lg text-white"></i>
+              </div>
+              <h6 class="fw-bold mb-3 text-dark">Vehículo de Apoyo <span class="text-muted fw-normal fs-6">(Opcional)</span></h6>
+              <div class="form-group mb-0">
+                <select class="form-select custom-elegant-select" [(ngModel)]="selectedVehiculoId">
+                  <option [ngValue]="null">Ninguno</option>
+                  <option *ngFor="let v of vehiculosDisponibles" [value]="v.id">
+                    {{ v.marca }} {{ v.modelo }} - {{ v.matricula }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="modal-actions-custom mt-5 border-top pt-4">
-        <button class="btn btn-secondary-custom" (click)="cerrarModal()">
-          <i class="fa-solid fa-xmark me-2"></i>Cancelar
+      <div class="modal-actions-custom mt-5 pt-3 d-flex justify-content-end gap-3 border-0">
+        <button class="btn btn-light elegant-btn-cancel px-4 py-2 fw-semibold" (click)="cerrarModal()">
+          Cancelar
         </button>
-        <button class="btn btn-primary-custom px-4" (click)="confirmarAceptar()" [disabled]="!selectedTecnicoId || isSubmitting">
-          <span *ngIf="!isSubmitting"><i class="fa-solid fa-check-double me-2"></i> Confirmar y Asignar</span>
-          <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i> Asignando...</span>
+        <button class="btn btn-dark elegant-btn-confirm px-4 py-2 fw-semibold" (click)="confirmarAceptar()" [disabled]="!selectedTecnicoId || isSubmitting">
+          <span *ngIf="!isSubmitting">Asignar Recursos</span>
+          <span *ngIf="isSubmitting"><i class="fa-solid fa-spinner fa-spin me-2"></i> Procesando...</span>
         </button>
       </div>
     </div>

@@ -596,3 +596,100 @@
     }
   }
 }
+/* Elegant Override */
+.asignacion-recursos-wrapper {
+  font-family: 'Inter', system-ui, sans-serif;
+  
+  .elegant-header {
+    h5 { font-size: 1.25rem; letter-spacing: -0.01em; }
+    p { font-size: 0.95rem; }
+  }
+
+  .elegant-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+      border-color: rgba(0,0,0,0.08);
+    }
+
+    .card-glass-effect {
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 100px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+      pointer-events: none;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .icon-wrapper {
+      width: 54px; height: 54px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      
+      &.bg-gradient-primary {
+        background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+        box-shadow: 0 8px 16px rgba(79, 70, 229, 0.25);
+      }
+      
+      &.bg-gradient-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.25);
+      }
+    }
+
+    .custom-elegant-select {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      color: #334155;
+      transition: all 0.2s ease;
+      
+      &:focus {
+        background-color: #ffffff;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+      }
+    }
+  }
+
+  .elegant-btn-cancel {
+    background: #f1f5f9;
+    border: none;
+    color: #475569;
+    border-radius: 10px;
+    &:hover { background: #e2e8f0; color: #1e293b; }
+  }
+
+  .elegant-btn-confirm {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.3);
+    }
+    
+    &:disabled {
+      background: #94a3b8;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+}

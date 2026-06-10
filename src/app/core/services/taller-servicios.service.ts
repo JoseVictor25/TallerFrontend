@@ -97,6 +97,7 @@ export interface VehiculoAsignado {
 
 export interface Servicio {
   id: number;
+  numero?: number;
   fecha: string;
   estado: string;
   id_taller: number;

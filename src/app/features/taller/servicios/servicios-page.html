@@ -110,7 +110,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let s of serviciosEnProceso">
-            <td>{{ s.id }}</td>
+            <td>{{ s.numero || s.id }}</td>
             <td>{{ formatFecha(s.fecha) }}</td>
             <td><span [class]="'estado ' + getEstadoClass(s.estado)">{{ getEstadoTexto(s.estado) }}</span></td>
             <td>
@@ -154,7 +154,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let s of serviciosHistorico">
-            <td>{{ s.id }}</td>
+            <td>{{ s.numero || s.id }}</td>
             <td>{{ formatFecha(s.fecha) }}</td>
             <td><span [class]="'estado ' + getEstadoClass(s.estado)">{{ getEstadoTexto(s.estado) }}</span></td>
             <td>
